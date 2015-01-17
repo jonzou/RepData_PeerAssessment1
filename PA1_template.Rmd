@@ -7,21 +7,76 @@ output:
 
 
 ## Loading and preprocessing the data
-```{r}
-act <- read.csv('activity.csv', header=T, NA="NA")
+```{r echo=TRUE,cache=FALSE}
+act <- read.csv('activity.csv', header=T)
+#act$date <- as.Date(act$date, "%Y-%m-%d")
 ```
 
 
 ## What is mean total number of steps taken per day?
-
-
-
+```{r echo=TRUE,warning=FALSE,message=FALSE}
+library(ggplot2)
+library(xtable)
+dailysteps <- aggregate(steps ~ date, data=act, sum, na.rm=TRUE)
+qplot(steps, data=dailysteps, geom="histogram")+labs(title='daily sum steps historgram')
+```
+### daily mean steps
+```{r results='asis'}
+dailysteps <- aggregate(steps ~ date, data=act, mean, na.rm=TRUE)
+print(xtable(dailysteps), type='html', include.rownames=FALSE)
+```
+### daily median steps
+```{r results='asis'}
+dailysteps <- aggregate(steps ~ date, data=act, median, na.rm=TRUE)
+print(xtable(t(dailysteps)), type='html', include.rownames=FALSE)
+```
 ## What is the average daily activity pattern?
-
-
+```{r}
+dailypattern <- tapply(act$steps, act$interval, mean, na.rm=TRUE)
+qplot(as.numeric(names(dailypattern)), dailypattern, geom='line', xlab="minutes") 
+```
+### max activity at minutes
+```{r}
+names(which.max(dailypattern))
+```
 
 ## Imputing missing values
+```{r}
+library(dplyr)
+nona <- sum(is.na(act$steps))
+act2 <- act %>%
+ group_by(interval) %>%
+ mutate(steps=ifelse(is.na(steps), median(steps, na.rm=TRUE),steps)) 
+nona2 <- sum(is.na(act2$steps))
 
-
-
+```
+there are total `r nona` rows data contains 'NA'  
+and after fillin there are `r nona2`
+```{r warning=FALSE,message=FALSE}
+dailysteps <- aggregate(steps ~ date, data=act2, sum)
+qplot(steps, data=dailysteps, geom="histogram")+labs(title='daily sum steps historgram after na fillin')
+```
+### daily mean steps
+```{r results='asis'}
+dailysteps <- aggregate(steps ~ date, data=act2, mean, na.rm=TRUE)
+print(xtable(dailysteps), type='html', include.rownames=FALSE)
+```
+### daily median steps
+```{r results='asis'}
+dailysteps <- aggregate(steps ~ date, data=act2, median, na.rm=TRUE)
+print(xtable(t(dailysteps)), type='html', include.rownames=FALSE)
+```
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+act2$weekdays <- factor(ifelse(weekdays(as.Date(act2$date)) %in% c('Saturday', 'Sunday'), 'weekend', 'weekday'))
+
+#dailypattern <- tapply(act2$steps, list(act2$weekdays,act2$interval), mean, na.rm=TRUE)
+dailypattern <- act2 %>%
+ group_by(weekdays, interval) %>%
+ summarise(steps=mean(steps))
+
+p <- ggplot(dailypattern, aes(x=interval, y=steps))
+p <- p + geom_line()
+p <- p + facet_wrap(~weekdays)
+print(p)
+```
