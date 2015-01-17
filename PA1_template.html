@@ -225,7 +225,7 @@ print(xtable(dailysteps), type=&#39;html&#39;, include.rownames=FALSE)
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
 
-<!-- Sat Jan 17 00:42:28 2015 -->
+<!-- Sat Jan 17 00:44:35 2015 -->
 
 <table border=1>
 <tr> <th> date </th> <th> steps </th>  </tr>
@@ -292,7 +292,7 @@ print(xtable(t(dailysteps)), type=&#39;html&#39;, include.rownames=FALSE)
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
 
-<!-- Sat Jan 17 00:42:28 2015 -->
+<!-- Sat Jan 17 00:44:35 2015 -->
 
 <table border=1>
 <tr> <th> 1 </th> <th> 2 </th> <th> 3 </th> <th> 4 </th> <th> 5 </th> <th> 6 </th> <th> 7 </th> <th> 8 </th> <th> 9 </th> <th> 10 </th> <th> 11 </th> <th> 12 </th> <th> 13 </th> <th> 14 </th> <th> 15 </th> <th> 16 </th> <th> 17 </th> <th> 18 </th> <th> 19 </th> <th> 20 </th> <th> 21 </th> <th> 22 </th> <th> 23 </th> <th> 24 </th> <th> 25 </th> <th> 26 </th> <th> 27 </th> <th> 28 </th> <th> 29 </th> <th> 30 </th> <th> 31 </th> <th> 32 </th> <th> 33 </th> <th> 34 </th> <th> 35 </th> <th> 36 </th> <th> 37 </th> <th> 38 </th> <th> 39 </th> <th> 40 </th> <th> 41 </th> <th> 42 </th> <th> 43 </th> <th> 44 </th> <th> 45 </th> <th> 46 </th> <th> 47 </th> <th> 48 </th> <th> 49 </th> <th> 50 </th> <th> 51 </th> <th> 52 </th> <th> 53 </th>  </tr>
@@ -343,7 +343,7 @@ print(xtable(dailysteps), type=&#39;html&#39;, include.rownames=FALSE)
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
 
-<!-- Sat Jan 17 00:42:28 2015 -->
+<!-- Sat Jan 17 00:44:35 2015 -->
 
 <table border=1>
 <tr> <th> date </th> <th> steps </th>  </tr>
@@ -418,7 +418,7 @@ print(xtable(t(dailysteps)), type=&#39;html&#39;, include.rownames=FALSE)
 
 <!-- html table generated in R 3.1.2 by xtable 1.7-4 package -->
 
-<!-- Sat Jan 17 00:42:28 2015 -->
+<!-- Sat Jan 17 00:44:35 2015 -->
 
 <table border=1>
 <tr> <th> 1 </th> <th> 2 </th> <th> 3 </th> <th> 4 </th> <th> 5 </th> <th> 6 </th> <th> 7 </th> <th> 8 </th> <th> 9 </th> <th> 10 </th> <th> 11 </th> <th> 12 </th> <th> 13 </th> <th> 14 </th> <th> 15 </th> <th> 16 </th> <th> 17 </th> <th> 18 </th> <th> 19 </th> <th> 20 </th> <th> 21 </th> <th> 22 </th> <th> 23 </th> <th> 24 </th> <th> 25 </th> <th> 26 </th> <th> 27 </th> <th> 28 </th> <th> 29 </th> <th> 30 </th> <th> 31 </th> <th> 32 </th> <th> 33 </th> <th> 34 </th> <th> 35 </th> <th> 36 </th> <th> 37 </th> <th> 38 </th> <th> 39 </th> <th> 40 </th> <th> 41 </th> <th> 42 </th> <th> 43 </th> <th> 44 </th> <th> 45 </th> <th> 46 </th> <th> 47 </th> <th> 48 </th> <th> 49 </th> <th> 50 </th> <th> 51 </th> <th> 52 </th> <th> 53 </th> <th> 54 </th> <th> 55 </th> <th> 56 </th> <th> 57 </th> <th> 58 </th> <th> 59 </th> <th> 60 </th> <th> 61 </th>  </tr>
@@ -430,7 +430,7 @@ print(xtable(t(dailysteps)), type=&#39;html&#39;, include.rownames=FALSE)
 
 <pre><code class="r">act2$weekdays &lt;- factor(ifelse(weekdays(as.Date(act2$date)) %in% c(&#39;Saturday&#39;, &#39;Sunday&#39;), &#39;weekend&#39;, &#39;weekday&#39;))
 
-dailypattern &lt;- tapply(act2$steps, list(act2$weekdays,act2$interval), mean, na.rm=TRUE)
+#dailypattern &lt;- tapply(act2$steps, list(act2$weekdays,act2$interval), mean, na.rm=TRUE)
 dailypattern &lt;- act2 %&gt;%
  group_by(weekdays, interval) %&gt;%
  summarise(steps=mean(steps))
